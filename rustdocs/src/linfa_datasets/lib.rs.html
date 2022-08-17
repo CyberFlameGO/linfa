@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `datasets/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../linfa_datasets/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../linfa_datasets/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../linfa_datasets/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+</pre><pre class="rust"><code><span class="doccomment">//! # Datasets</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `linfa-datasets` provides a collection of commonly used datasets ready to be used in tests and examples.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## The Big Picture</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `linfa-datasets` is a crate in the [`linfa`](https://crates.io/crates/linfa) ecosystem, an effort to create a toolkit for classical Machine Learning implemented in pure Rust, akin to Python&#39;s `scikit-learn`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Current State</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Currently the following datasets are provided:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! | Name | Description | #samples, #features, #targets | Targets | Reference |</span>
+<span class="doccomment">//! | :--- | :--- | :---| :--- | :--- |</span>
+<span class="doccomment">//! | iris | The Iris dataset provides samples of flower properties, belonging to three different classes. Only two of them are linearly separable. It was introduced by Ronald Fisher in 1936 as an example for linear discriminant analysis. |  150, 4, 1 | Multi-class classification | [here](https://archive.ics.uci.edu/ml/datasets/iris) |</span>
+<span class="doccomment">//! | winequality | The winequality dataset measures different properties of wine, such as acidity, and gives a scoring from 3 to 8 in quality. It was collected in the north of Portugal. | 441, 10, 1 | Multi-class classification | [here](https://archive.ics.uci.edu/ml/datasets/wine+quality) |</span>
+<span class="doccomment">//! | diabetes | The diabetes dataset gives samples of human biological measures, such as BMI, age, blood measures, and tries to predict the progression of diabetes. | 1599, 11, 1 | Regression | [here](https://www4.stat.ncsu.edu/~boos/var.select/diabetes.html) |</span>
+<span class="doccomment">//! | linnerud | The linnerud dataset contains samples from 20 middle-aged men in a fitness club. Their physical capability, as well as biological measures are related. | 20, 3, 3 | Regression | [here](https://core.ac.uk/download/pdf/20641325.pdf) |</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The purpose of this crate is to faciliate dataset loading and make it as simple as possible. Loaded datasets are returned as a</span>
+<span class="doccomment">//! [linfa::Dataset] structure with named features.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Additionally, this crate provides utility functions to randomly generate test datasets.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Using a dataset</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! To use one of the provided datasets in your project add the `linfa-datasets` crate to your `Cargo.toml` and enable the corresponding feature:</span>
+<span class="doccomment">//! ```ignore</span>
+<span class="doccomment">//! linfa-datasets = { version = &quot;0.3.1&quot;, features = [&quot;winequality&quot;] }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! You can then use the dataset in your working code:</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let (train, valid) = linfa_datasets::winequality()</span>
+<span class="doccomment">//!     .split_with_ratio(0.8);</span>
+<span class="doccomment">//! ```</span>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;iris&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;diabetes&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;winequality&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;linnerud&quot;</span>
+))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dataset</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;generate&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">generate</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;iris&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;diabetes&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;winequality&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;linnerud&quot;</span>
+))]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dataset</span>::<span class="kw-2">*</span>;
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="linfa_datasets" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
+</body></html>
